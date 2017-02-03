@@ -46,7 +46,7 @@ push-image:
         author: Hauskontor
         username: _json_key
         password: $GCR_JSON_KEY_FILE
-        ports: "80"
+        ports: "3000"
         working-dir: $WERCKER_SOURCE_DIR
         entrypoint: nginx -g "daemon off;" -c /pipeline/source/etc/nginx.conf
 
