@@ -38,7 +38,7 @@ spec:
     targetPort: 3000
   selector:
     app: kubernetes-test-sharanov
----
+----
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
