@@ -22,7 +22,7 @@ spec:
           - containerPort: 80
         readinessProbe:
           httpGet:
-            path: /ready
+            path: /notready
             port: 80
           periodSeconds: 10
           timeoutSeconds: 1
