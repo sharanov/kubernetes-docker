@@ -36,8 +36,6 @@ server.listen(process.env.SERVER_PORT, function () {
     console.log(`Server started on host: localhost:${process.env.SERVER_PORT}`);
 });
 
-
-
 //
 // var http = require('http');
 // var requests=0;
