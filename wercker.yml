@@ -1,6 +1,6 @@
 box: nginx
 
-install-env-beta:
+install:
 
   box: node:6.9.2
 
@@ -11,23 +11,6 @@ install-env-beta:
         name: run webpack env beta
         code: |
           npm run build-beta
-
-    - script:
-        name: clean up build packages
-        code: |
-          rm -fR  node_modules/ aot/ build/
-
-install-env-prod:
-
-  box: node:6.9.2
-
-  steps:
-    - npm-install
-
-    - script:
-        name: run webpack prod
-        code: |
-          npm run build-prod
 
     - script:
         name: clean up build packages
