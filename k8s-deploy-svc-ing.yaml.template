@@ -15,17 +15,10 @@ spec:
     spec:
       containers:
       - name: kubernetes-test-sharanov
-        image: ${GCE_REPOSITORY}/kubernetes-test-sharanov:${WERCKER_GIT_BRANCH}-${WERCKER_GIT_COMMIT}
-        imagePullPolicy: Always
+          image: ${GCE_REPOSITORY}/kubernetes-test-sharanov:${WERCKER_GIT_BRANCH}-${WERCKER_GIT_COMMIT}
+          imagePullPolicy: Always
         ports:
-        - containerPort: 3000
-
-        readinessProbe:
-          httpGet:
-            path: /qweqweqwe
-            port: 3000
-          initialDelaySeconds: 20
-          failureThreshold: 5
+          - containerPort: 3000
 
         env:
         - name: SERVER_PORT
