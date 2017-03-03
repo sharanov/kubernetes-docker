@@ -6,7 +6,7 @@ var startTime;
 var host;
 
 var handleRequest = function(request, response) {
-    response.send(500);
+    response.writeHead(500);
   // response.setHeader('Content-Type', 'text/plain');
   // response.writeHead(200);
   // response.write("Hello Kubernetes bootcamp! | Hostname: ");
