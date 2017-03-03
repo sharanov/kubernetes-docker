@@ -11,12 +11,11 @@ var handleRequest = function(request, response) {
   response.end(" | v=1\n");
   console.log("Hostname:" ,host, "| Total Requests:", ++requests,"| App Uptime:", (new Date() - startTime)/1000 , "seconds", "| Log Time:",new Date());
 }
-server.get('/fail', function(req, res) {
-    return res.send(500);
-});
+
 var www = http.createServer(handleRequest);
 www.listen(3000,function () {
-    startTime = new Date();;
-    host = process.env.HOSTNAME;
-    console.log ("Kubernetes Bootcamp App Started At:",startTime, "| Running On: " ,host, "\n" );
+    return res.send(500);
+    // startTime = new Date();;
+    // host = process.env.HOSTNAME;
+    // console.log ("Kubernetes Bootcamp App Started At:",startTime, "| Running On: " ,host, "\n" );
 });
