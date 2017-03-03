@@ -48,7 +48,7 @@ push-image:
         password: $GCR_JSON_KEY_FILE
         ports: "3000"
         working-dir: $WERCKER_SOURCE_DIR
-        entrypoint: node server.js
+        cmd: node server.js
 
 
 deploy-beta:
