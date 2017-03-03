@@ -19,18 +19,15 @@ spec:
         image: ${GCE_REPOSITORY}/kubernetes-test-sharanov:${WERCKER_GIT_BRANCH}-${WERCKER_GIT_COMMIT}
         imagePullPolicy: Always
         ports:
-          - containerPort: 3000
+          - containerPort: 80
         readinessProbe:
           httpGet:
             path: /ready
-            port: 3000
+            port: 80
           periodSeconds: 10
           timeoutSeconds: 1
           successThreshold: 1
           failureThreshold: 5
-        env:
-        - name: SERVER_PORT
-          value: "3000"
 
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
@@ -43,7 +40,7 @@ spec:
   type: NodePort
   ports:
   - port: 80
-    targetPort: 3000
+    targetPort: 80
   selector:
     app: kubernetes-test-sharanov
 ---

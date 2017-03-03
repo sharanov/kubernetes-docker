@@ -1,46 +1,87 @@
-box: node:boron
+box: nginx
 
-# Install dependencies
-install:
-    
+install-env-beta:
+
+  box: node:6.9.2
+
   steps:
-      
+    - npm-install
+
     - script:
-        name: install npm
+        name: run webpack env beta
         code: |
-          npm install --quiet
-          
+          npm run build-beta
+
+    - script:
+        name: clean up build packages
+        code: |
+          rm -fR  node_modules/ aot/ build/
+
+install-env-prod:
+
+  box: node:6.9.2
+
+  steps:
+    - npm-install
+
+    - script:
+        name: run webpack prod
+        code: |
+          npm run build-prod
+
+    - script:
+        name: clean up build packages
+        code: |
+          rm -fR  node_modules/ aot/ build/
+
 # Prepare the image and push it to GCR
 push-image:
-    
-  steps:
 
+  box: nginx
+
+  steps:
     # Build image and push it to GCR
     - internal/docker-push:
-        disable-sync: true
         registry: $GCE_REGISTRY
         repository: $GCE_REPOSITORY/kubernetes-test-sharanov
         tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
         author: Hauskontor
         username: _json_key
         password: $GCR_JSON_KEY_FILE
-        ports: "3000"
+        ports: "80"
         working-dir: $WERCKER_SOURCE_DIR
-        cmd: npm run start
+        entrypoint: nginx -g "daemon off;" -c /pipeline/source/etc/nginx.conf
 
+push-image-prod:
+
+  box: nginx
+
+  steps:
+    # Build image and push it to GCR
+    - internal/docker-push:
+        registry: $GCE_REGISTRY
+        repository: $GCE_REPOSITORY/kubernetes-test-sharanov
+        tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
+        author: Hauskontor
+        username: _json_key
+        password: $GCR_JSON_KEY_FILE
+        ports: "80"
+        working-dir: $WERCKER_SOURCE_DIR
+        entrypoint: nginx -g "daemon off;" -c /pipeline/source/etc/nginx.conf
 
 deploy-beta:
-    
+
   steps:
     # Do templating of k8s yaml file to work with new image
     - bash-template
-          
+
     - script:
         name: Move Kubernetes files in the convenient location
         code: |
           ls -la
           mkdir $WERCKER_OUTPUT_DIR/k8s
           mv k8s-*.yaml $WERCKER_OUTPUT_DIR/k8s
+
     # Deploy by applying new Deployment
     - kubectl:
         command: apply -f $WERCKER_OUTPUT_DIR/k8s/
@@ -57,7 +98,42 @@ deploy-beta:
         password: $K8S_PASSWORD
         insecure-skip-tls-verify: true
 
-  # after-steps:
-  #   - wercker/slack-notifier:
-  #       url: $SLACK_WEBHOOK_URL
-  #       channel: wercker
+  after-steps:
+    - wercker/slack-notifier:
+        url: $SLACK_WEBHOOK_URL
+        channel: wercker
+
+
+deploy-prod:
+
+  steps:
+    # Do templating of k8s yaml file to work with new image
+    - bash-template
+
+    - script:
+        name: Move Kubernetes files in the convenient location
+        code: |
+          ls -la
+          mkdir $WERCKER_OUTPUT_DIR/k8s
+          mv k8s-*.yaml $WERCKER_OUTPUT_DIR/k8s
+
+    # Deploy by applying new Deployment
+    - kubectl:
+        command: apply -f $WERCKER_OUTPUT_DIR/k8s/
+        server: $K8S_PROD_MASTER
+        username: $K8S_PROD_USERNAME
+        password: $K8S_PROD_PASSWORD
+        insecure-skip-tls-verify: true
+
+    # Check the status. Visible only from the logs! Doesn't interrupt the pipeline
+    - kubectl:
+        command: rollout status deployment/kubernetes-test-sharanov
+        server: $K8S_PROD_MASTER
+        username: $K8S_PROD_USERNAME
+        password: $K8S_PROD_PASSWORD
+        insecure-skip-tls-verify: true
+
+  after-steps:
+    - wercker/slack-notifier:
+        url: $SLACK_WEBHOOK_URL
+        channel: wercker
