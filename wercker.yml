@@ -14,10 +14,6 @@ install:
 push-image:
     
   steps:
-    - script:
-        name: Do trick with empty .env file, so that env variables are used
-        code: |
-          cp .env.empty .env
 
     # Build image and push it to GCR
     - internal/docker-push:
