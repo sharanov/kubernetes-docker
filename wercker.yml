@@ -7,16 +7,6 @@ install:
   steps:
     - npm-install
 
-    - script:
-        name: run webpack env beta
-        code: |
-          npm run build-beta
-
-    - script:
-        name: clean up build packages
-        code: |
-          rm -fR  node_modules/ aot/ build/
-
 # Prepare the image and push it to GCR
 push-image:
 
@@ -81,42 +71,3 @@ deploy-beta:
         password: $K8S_PASSWORD
         insecure-skip-tls-verify: true
 
-  after-steps:
-    - wercker/slack-notifier:
-        url: $SLACK_WEBHOOK_URL
-        channel: wercker
-
-
-deploy-prod:
-
-  steps:
-    # Do templating of k8s yaml file to work with new image
-    - bash-template
-
-    - script:
-        name: Move Kubernetes files in the convenient location
-        code: |
-          ls -la
-          mkdir $WERCKER_OUTPUT_DIR/k8s
-          mv k8s-*.yaml $WERCKER_OUTPUT_DIR/k8s
-
-    # Deploy by applying new Deployment
-    - kubectl:
-        command: apply -f $WERCKER_OUTPUT_DIR/k8s/
-        server: $K8S_PROD_MASTER
-        username: $K8S_PROD_USERNAME
-        password: $K8S_PROD_PASSWORD
-        insecure-skip-tls-verify: true
-
-    # Check the status. Visible only from the logs! Doesn't interrupt the pipeline
-    - kubectl:
-        command: rollout status deployment/kubernetes-test-sharanov
-        server: $K8S_PROD_MASTER
-        username: $K8S_PROD_USERNAME
-        password: $K8S_PROD_PASSWORD
-        insecure-skip-tls-verify: true
-
-  after-steps:
-    - wercker/slack-notifier:
-        url: $SLACK_WEBHOOK_URL
-        channel: wercker
