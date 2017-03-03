@@ -6,38 +6,19 @@ install:
   steps:
       
     - script:
-        name: update sources
-        code: |
-          apt-get update
-          apt-get install -y wget xz-utils
-          
-    - script:
-        name: install nodejs
-        code: |
-          wget https://nodejs.org/dist/v6.9.2/node-v6.9.2-linux-x64.tar.xz
-          ls -l
-          tar -Jxf node-v6.9.2-linux-x64.tar.xz
-          cp -r node-v6.9.2-linux-x64/{bin,include,lib,share} /usr/
-          rm -fR node-v6.9.2-linux-x64.tar.xz node-v6.9.2-linux-x64
-          npm install npm -g
-          node -v
-          npm -v
-          
-    - script:
-        name: npm install
+        name: install npm
         code: |
           npm install --quiet
-
-    - script:
-        name: clean up build packages
-        code: |
-          rm -fR  node_modules/ aot/ build/
           
 # Prepare the image and push it to GCR
 push-image:
     
   steps:
-    
+    - script:
+        name: Do trick with empty .env file, so that env variables are used
+        code: |
+          cp .env.empty .env
+
     # Build image and push it to GCR
     - internal/docker-push:
         registry: $GCE_REGISTRY
