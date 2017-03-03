@@ -50,7 +50,7 @@ metadata:
   name: kubernetes-test-sharanov
 spec:
   tls:
-  - secretName: tls-hauskontor-de-secret
+  - secretName: tls-secret
   backend:
     serviceName: kubernetes-test-sharanov
     servicePort: 80
