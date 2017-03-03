@@ -1,4 +1,4 @@
-box: nginx
+box: node:boron
 
 # Install dependencies
 install:
