@@ -17,6 +17,7 @@ push-image:
 
     # Build image and push it to GCR
     - internal/docker-push:
+        disable-sync: true
         registry: $GCE_REGISTRY
         repository: $GCE_REPOSITORY/kubernetes-test-sharanov
         tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
