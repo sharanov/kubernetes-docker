@@ -1,5 +1,3 @@
-box: nginx
-
 install:
 
   box: node:6.9.2
@@ -7,25 +5,23 @@ install:
   steps:
     - npm-install
 
+    - script:
+        name: apt-get-update
+        code: |
+          apt-get update
+
+    - script:
+        name: apt-get-install-vim
+        code: |
+          apt-get -y install vim
+
+    - script:
+        name: apt-get-install-curl
+        code: |
+          apt-get -y install curl
+
 # Prepare the image and push it to GCR
 push-image:
-
-  box: nginx
-
-  steps:
-    # Build image and push it to GCR
-    - internal/docker-push:
-        registry: $GCE_REGISTRY
-        repository: $GCE_REPOSITORY/kubernetes-test-sharanov
-        tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
-        author: Hauskontor
-        username: _json_key
-        password: $GCR_JSON_KEY_FILE
-        ports: "80"
-        working-dir: $WERCKER_SOURCE_DIR
-        entrypoint: nginx -g "daemon off;" -c /pipeline/source/etc/nginx.conf
-
-push-image-prod:
 
   box: nginx
 
