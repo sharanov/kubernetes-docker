@@ -3,19 +3,19 @@ box: nginx
 install:
   steps:
     - script:
-        name: apt-get-update
+        name: apt-get update
         code: |
-          apt-get update
+          apt-get -q update
 
     - script:
-        name: apt-get-install-vim
+        name: apt-get install vim
         code: |
-          apt-get -y install vim
+          apt-get -yq install vim
 
     - script:
-        name: apt-get-install-curl
+        name: apt-get install curl
         code: |
-          apt-get -y install curl
+          apt-get -yq install curl
 
 # Prepare the image and push it to GCR
 push-image:
