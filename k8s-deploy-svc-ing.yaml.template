@@ -16,6 +16,10 @@ spec:
     spec:
       containers:
       - name: kubernetes-test-sharanov
+      args:
+      - /bin/sh
+      - -c
+      - sleep 30; echo "this is error" > /dev/stderr
         image: ${GCE_REPOSITORY}/kubernetes-test-sharanov:${WERCKER_GIT_BRANCH}-${WERCKER_GIT_COMMIT}
         imagePullPolicy: Always
         ports:
