@@ -1,5 +1,6 @@
+box: nginx
+
 install:
-  box: nginx
   steps:
     - script:
         name: apt-get update
@@ -18,7 +19,6 @@ install:
 
 # Prepare the image and push it to GCR
 push-image:
-  box: nginx
   steps:
     # Build image and push it to GCR
     - internal/docker-push:
