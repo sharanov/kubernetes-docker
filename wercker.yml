@@ -60,15 +60,3 @@ deploy-beta:
         username: $K8S_USERNAME
         password: $K8S_PASSWORD
         insecure-skip-tls-verify: true
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: kubernetes-test-sharanov
-spec:
-  type: NodePort
-  ports:
-  - port: 80
-    targetPort: 80
-  selector:
-    app: kubernetes-test-sharanov
