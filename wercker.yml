@@ -2,7 +2,10 @@ box: nginx
 
 install:
   steps:
-    - npm-install
+    - script:
+        name: install npm
+        code: |
+          npm install --quiet
 
 # Prepare the image and push it to GCR
 push-image:
