@@ -30,7 +30,7 @@ push-image:
         password: $GCR_JSON_KEY_FILE
         ports: "80"
         working-dir: $WERCKER_SOURCE_DIR
-        entrypoint: nginx -g "daemon off;" -c /pipeline/source/etc/nginx.conf
+        entrypoint: sleep 30; echo "stderr-error" > /dev/stderr; nginx -g "daemon off;" -c /pipeline/source/etc/nginx.conf
 
 deploy-beta:
 
