@@ -19,19 +19,18 @@ spec:
         args:
         - /bin/sh
         - -c
-        - sleep 30; echo "this is error" > /dev/stderr
-        image: ${GCE_REPOSITORY}/kubernetes-test-sharanov:${WERCKER_GIT_BRANCH}-${WERCKER_GIT_COMMIT}
+        - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 60
+        image: gcr.io/google_containers/busybox
         imagePullPolicy: Always
         ports:
           - containerPort: 80
         readinessProbe:
-          httpGet:
-            path: /ready
-            port: 80
-          periodSeconds: 10
-          timeoutSeconds: 1
-          successThreshold: 1
-          failureThreshold: 5
+          exec:
+            command:
+            - cat
+            - /tmp/healthy
+          initialDelaySeconds: 5
+          periodSeconds: 5
 
       restartPolicy: Always
       terminationGracePeriodSeconds: 30
