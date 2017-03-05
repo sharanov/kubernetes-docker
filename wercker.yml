@@ -2,28 +2,28 @@ box: nginx
 
 install:
 
-  box: node:6.9.2
-
-  steps:
-    - npm-install
+#  box: node:6.9.2
+#
+#  steps:
+#    - npm-install
 
 # Prepare the image and push it to GCR
 push-image:
 
-  box: nginx
+#  box: nginx
 
-  steps:
+#  steps:
     # Build image and push it to GCR
-    - internal/docker-push:
-        registry: $GCE_REGISTRY
-        repository: $GCE_REPOSITORY/kubernetes-test-sharanov
-        tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
-        author: Hauskontor
-        username: _json_key
-        password: $GCR_JSON_KEY_FILE
-        ports: "80"
-        working-dir: $WERCKER_SOURCE_DIR
-        entrypoint: nginx -g "daemon off;" -c /pipeline/source/etc/nginx.conf
+#    - internal/docker-push:
+#        registry: $GCE_REGISTRY
+#        repository: $GCE_REPOSITORY/kubernetes-test-sharanov
+#        tag: $WERCKER_GIT_BRANCH-$WERCKER_GIT_COMMIT
+#        author: Hauskontor
+#        username: _json_key
+#        password: $GCR_JSON_KEY_FILE
+#        ports: "80"
+#        working-dir: $WERCKER_SOURCE_DIR
+#        entrypoint: nginx -g "daemon off;" -c /pipeline/source/etc/nginx.conf
 
 deploy-beta:
 
