@@ -10,7 +10,19 @@ spec:
     lifecycle:
       postStart:
         exec:
-          command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
+          command: ["/bin/sh", "-c", "echo Error from the postStart > /dev/stderr"]
       preStop:
         exec:
           command: ["/usr/sbin/nginx","-s","quit"]
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: lifecycle-test
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: lifecycle-test
