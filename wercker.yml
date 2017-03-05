@@ -13,7 +13,7 @@ push-image:
   box: nginx
 
   steps:
-     Build image and push it to GCR
+     # Build image and push it to GCR
     - internal/docker-push:
         registry: $GCE_REGISTRY
         repository: $GCE_REPOSITORY/kubernetes-test-sharanov
