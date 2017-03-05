@@ -16,6 +16,14 @@ spec:
     spec:
       containers:
       - name: kubernetes-test-sharanov
+        args:
+        - /bin/sh
+        - -c
+        - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 30
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "echo pre stop event > /dev/stderr"]
         image: gcr.io/google_containers/busybox
         imagePullPolicy: Always
         ports:
