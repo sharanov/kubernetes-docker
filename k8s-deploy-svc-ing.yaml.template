@@ -16,18 +16,15 @@ spec:
     spec:
       containers:
       - name: kubernetes-test-sharanov
-        args:
-        - /bin/sh
-        - -c
-        - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 30
+#        args:
+#        - /bin/sh
+#        - -c
+#        - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 30
+        image: gcr.io/google_containers/busybox
         lifecycle:
           postStart:
             exec:
-              command:
-              - /bin/sh
-              - -c
-              - "echo Hello from the postStart handler > /dev/stdout"
-        image: gcr.io/google_containers/busybox
+              command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /usr/share/message"]
         imagePullPolicy: Always
         ports:
           - containerPort: 80
