@@ -19,7 +19,8 @@ spec:
         args:
         - /bin/sh
         - -c
-        - touch /tmp/healthy; # sleep 30; rm -rf /tmp/healthy; sleep 30
+        - touch /tmp/healthy
+        #; sleep 30; rm -rf /tmp/healthy; sleep 30
         image: gcr.io/google_containers/busybox
         lifecycle:
           postStart:
