@@ -19,7 +19,7 @@ spec:
         args:
         - /bin/sh
         - -c
-        - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 60
+        - touch /tmp/healthy; sleep 30; echo "ra-ra-ra-ra-ra" > /dev/stderr; rm -rf /tmp/healthy; sleep 60
         image: gcr.io/google_containers/busybox
         imagePullPolicy: Always
         ports:
