@@ -24,7 +24,9 @@ spec:
           preStop:
             exec:
               command:
-                - "echo ra-ra-ra-ra-ra > /dev/stderr"
+                - "echo"
+                - "pre stop: ra-ra-ra-ra-ra"
+                - "> /dev/stderr"
         image: gcr.io/google_containers/busybox
         imagePullPolicy: Always
         ports:
