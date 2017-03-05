@@ -20,19 +20,6 @@ spec:
         - /bin/sh
         - -c
         - touch /tmp/healthy; sleep 30; rm -rf /tmp/healthy; sleep 30
-        lifecycle:
-          postStart:
-            exec:
-              command:
-              - /bin/sh
-              - -c
-              - echo Hello from the postStart handler > /dev/stdout
-          preStop:
-            exec:
-              command:
-              - /bin/sh
-              - -c
-              - echo pre stop event > /dev/stderr
         image: gcr.io/google_containers/busybox
         imagePullPolicy: Always
         ports:
