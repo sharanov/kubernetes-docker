@@ -23,7 +23,7 @@ spec:
         lifecycle:
           preStop:
             exec:
-              command: command: ["/bin/sh", "-c", "echo pre stop event > /dev/stderr"]
+              command: ["/bin/sh", "-c", "echo pre stop event > /dev/stderr"]
         image: gcr.io/google_containers/busybox
         imagePullPolicy: Always
         ports:
