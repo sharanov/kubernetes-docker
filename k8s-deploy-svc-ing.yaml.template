@@ -23,10 +23,16 @@ spec:
         lifecycle:
           postStart:
             exec:
-              command: ["/bin/sh", "-c", "echo Hello from the postStart handler > /dev/stdout"]
+              command:
+                - /bin/sh
+                - -c
+                - echo Hello from the postStart handler > /dev/stdout
           preStop:
             exec:
-              command: ["/bin/sh", "-c", "echo pre stop event > /dev/stderr"]
+              command:
+                - /bin/sh
+                - -c
+                - echo pre stop event > /dev/stderr
         image: gcr.io/google_containers/busybox
         imagePullPolicy: Always
         ports:
